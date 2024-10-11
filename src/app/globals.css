@@ -88,6 +88,9 @@ body{
 .style-card:hover{
   border: 2px solid rgb(var(--primary));
 }
+.meal-banner{
+  background-color: rgb(255, 255, 255);
+}
 .style-card .meal-banner{
   border-radius: 7px;
 }

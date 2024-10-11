@@ -6,20 +6,12 @@ import StyleModal from '@/components/modal';
 import SaveMealAsWeek from '@/components/week-form';
 import {RootState} from '../store'
 import { setRecipes } from '@/store/reducers/recipes';
-import { setMeals, removeMeals } from '@/store/reducers/meals';
+import { setMeals, Meal } from '@/store/reducers/meals';
 import apiHandler from '@/api/handler';
-import { Meal } from '@/store/reducers/meals';
 import RandomStars from '@/components/rating';
 
 
-export function getMealsFromLocal(){
-    const mealData: Meal[] = localStorage.getItem('mealsInfo')
-    ? JSON.parse(localStorage.getItem('mealsInfo') as string) as Meal[]
-    : [];
 
-    return mealData;
-   
-}
 
 const Main = () =>{
     const dispatch = useDispatch();
@@ -35,6 +27,15 @@ const Main = () =>{
         { label: "Week 4", slug : 'week4', isTrue: false }
     ]);
 
+    function getMealsFromLocal(){
+        const mealData: Meal[] = localStorage.getItem('mealsInfo')
+        ? JSON.parse(localStorage.getItem('mealsInfo') as string) as Meal[]
+        : [];
+    
+        return mealData;
+       
+    }
+
     useEffect(()=>{
        let mealDetails =  getMealsFromLocal()
        dispatch(setMeals(mealDetails))
@@ -42,21 +43,20 @@ const Main = () =>{
 
     const handleButtonClick = (index:number, slug:string) => {   
 
+        let mealDetails =  getMealsFromLocal()
+        if(slug !== 'all-meal'){
+            const updateMealList =  mealDetails.filter(meal => meal?.selectedWeek === slug)
+            dispatch(setMeals(updateMealList))
+        }
+        else{
+            dispatch(setMeals(mealDetails))
+        }
+
         setMealTab((prevMeals) =>
           prevMeals.map((meal, i) =>
             i === index ? { ...meal, isTrue: !meal.isTrue } : {...meal, isTrue : false}
           )
         );
-
-        if(slug !== 'all-meal'){
-            const updateMealList =  meals.filter(meal => meal?.selectedWeek === slug)
-            dispatch(setMeals(updateMealList))
-        }
-        else{
-            let mealDetails =  getMealsFromLocal()
-            dispatch(setMeals(mealDetails))
-        }
-
     };
 
     const showMealForm = () =>{
@@ -69,9 +69,7 @@ const Main = () =>{
     }
 
     const deleteMeal = (index: number) => {
-        const mealData: Meal[] = localStorage.getItem('mealsInfo')
-          ? JSON.parse(localStorage.getItem('mealsInfo') as string) as Meal[]
-          : [];      
+        let mealData =  getMealsFromLocal() 
         mealData.splice(index, 1);
         localStorage.setItem('mealsInfo', JSON.stringify(mealData));
         dispatch(setMeals(mealData));
