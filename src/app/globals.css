@@ -5,6 +5,7 @@
 @layer base {
   :root {
     --light: 255, 255, 255; /* White */
+    --red: 255,0,0;
     --primary: 0, 67, 112; /* Primary brand color */
     --dark:0,0,0;
   }
@@ -81,6 +82,8 @@ body{
   border: 2px solid transparent;
   transition: all 300ms ease-in-out;
   cursor: pointer;
+  min-height: 670px;
+  box-shadow: 4px 4px 16px rgb(211 211 211);
 }
 .style-card:hover{
   border: 2px solid rgb(var(--primary));
@@ -144,4 +147,24 @@ body{
 }
 .style-form .style-select-list{
   background-color: rgba(var(--light)) !important;
+}
+.delete-btn{
+  color: rgba(var(--red), 1);
+  background-color: rgba(255,224,224, 1);
+  font-size: 18px;
+}
+
+@media only screen and (max-width: 767px) {
+  .action-list{
+    overflow-x: auto;
+  }
+  .style-button{
+    margin: 0 auto;
+  }
+  .header-bar{
+    padding: 15px 0;
+  }
+  .style-card{
+    padding: 15px;
+  }
 }

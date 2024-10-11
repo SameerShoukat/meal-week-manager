@@ -2,12 +2,21 @@
 import React, {useState} from "react";
 import { ComboboxDemo } from "../forms/selectSearch";
 import ButtonRadioGroup from "../forms/weekradiogroup";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {RootState} from '../../store'
+import { Meal } from "@/store/reducers/meals";
+import { Recipe } from "@/store/reducers/recipes";
+import { setMeals } from "@/store/reducers/meals";
+import { UseDispatch } from "react-redux";
 
 
+interface myProps{
+    setIsModalOpen : (value : boolean) => void
+}
 
-export default function SaveMealAsWeek () {
+
+const SaveMealAsWeek : React.FC<myProps> = ({setIsModalOpen}) => {
+    const dispatch = useDispatch();
     const [selectedValue, setSelectedValue] = useState("");
     const [selectedWeek, setSelectedWeek] = useState('week1');
     const recipes = useSelector((state : RootState)=> state.recipeList.recipes)
@@ -22,8 +31,32 @@ export default function SaveMealAsWeek () {
         e.preventDefault()
         if(!selectedValue) return alert("Meal is required")
         if(!selectedWeek) return alert("Week is required")
-        console.log(selectedValue)
-        console.log(selectedWeek)
+
+        const mealData: Meal[] = localStorage.getItem('mealsInfo')
+        ? JSON.parse(localStorage.getItem('mealsInfo') as string) as Meal[]
+        : [];
+
+        if (mealData.length !== 0) {
+        const mealExistOnGivenWeek = mealData.find(weekMeal => 
+        weekMeal.id === selectedValue && weekMeal?.selectedWeek === selectedWeek
+        );
+
+        if (mealExistOnGivenWeek) {
+            return alert("Meal already exists in this week");
+        }
+        }
+
+        const mealInfo: Recipe | undefined = recipes.find(recipe => recipe.id === selectedValue);
+        if (mealInfo) {
+            const selectedMeal = {...mealInfo, selectedWeek : selectedWeek}
+            mealData.push(selectedMeal);
+            localStorage.setItem('mealsInfo', JSON.stringify(mealData));
+            setIsModalOpen(false)
+            dispatch(setMeals(mealData))
+            alert("Meal has been saved to " + selectedWeek);
+        } else {
+            alert("Meal not found");
+        }
       }
  
     return (
@@ -47,3 +80,4 @@ export default function SaveMealAsWeek () {
     );
   };
   
+  export default SaveMealAsWeek;

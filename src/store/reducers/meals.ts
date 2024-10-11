@@ -17,6 +17,7 @@ export interface Meal {
   image: string;
   rating: number;
   reviewCount: number;
+  selectedWeek: string;
   mealType: string[];
 }
 
@@ -38,12 +39,17 @@ export const mealSlice = createSlice({
     setMeals: (state, action: PayloadAction<Meal[]>) => {
       state.meals = action.payload; // Set the meals array to the new array
     },
-
+    removeMeals: (state, action: PayloadAction<number>) => {
+      const index = action.payload;
+      if (index !== -1) {
+        state.meals.splice(index, 1);
+      }
+    },
     // Action to add a new meal
     addMeal: (state, action: PayloadAction<Meal>) => {
       state.meals.push(action.payload); // Add the new meal to the array
     },
-
+  
     // Action to clear all meals
     clearMeals: () => {
       return initialState; // Reset state to initial
@@ -52,7 +58,7 @@ export const mealSlice = createSlice({
 });
 
 // Export the actions
-export const { setMeals, addMeal, clearMeals } = mealSlice.actions;
+export const { setMeals, addMeal, clearMeals, removeMeals } = mealSlice.actions;
 
 // Export the reducer as the default export
 export default mealSlice.reducer;
