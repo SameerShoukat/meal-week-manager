@@ -1,0 +1,147 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --light: 255, 255, 255; /* White */
+    --primary: 0, 67, 112; /* Primary brand color */
+    --dark:0,0,0;
+  }
+}
+
+
+body{
+  font-size: 16px;
+  color: var(--dark) !important;
+}
+.section{
+  padding: 50px 0;
+}
+
+.overlay::before{
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+.main-banner::before{
+  background-color: rgba(var(--light), 0.7);
+}
+
+.heading{
+  font-size: 40px;
+  font-weight: 700;
+}
+.sub-heading{
+  font-size: 30px;
+  font-weight: 600;
+}
+.meal-section{
+  background: rgb(250, 234, 244);
+  background: linear-gradient(357deg, rgb(255 249 253) 0%, rgb(235 234 255) 100%);
+}
+.action-list li button{
+  font-weight: 600;
+  transition: all 300ms ease-in-out;
+  border-bottom: 2px solid transparent;
+}
+.action-list li button:hover,
+.action-list li button.active {
+  color: rgb(var(--primary));
+  border-bottom: 2px solid rgb(var(--primary));
+}
+
+.style-button{
+  border-radius: 7px;
+  background-color: rgba(var(--primary));
+  color: rgba(var(--light));
+}
+.style-button:hover:not(.disabled-btn){
+  color: rgb(var(--primary));
+  background-color: transparent;
+  border: 2px solid rgb(var(--primary));
+}
+.style-button.disabled-btn{
+  opacity: .5;
+  filter: grayscale(1);
+  cursor: default;
+}
+.style-meal-list{
+  padding: 100px 0;
+}
+
+/* card design */
+.style-card{
+  padding: 40px;
+  background: rgba(var(--light));
+  border-radius: 8px;
+  border: 2px solid transparent;
+  transition: all 300ms ease-in-out;
+  cursor: pointer;
+}
+.style-card:hover{
+  border: 2px solid rgb(var(--primary));
+}
+.style-card .meal-banner{
+  border-radius: 7px;
+}
+.style-card .meal-banner span.strip{
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  background-color:  rgb(var(--dark));
+  color: rgba(var(--light));
+  min-width: 120px;
+  height: 30px;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.style-card .meal-banner::before{
+  background-color: rgba(var(--dark), 0.2);
+  border-radius: 7px;
+}
+.style-card h3{
+  font-size: 22px;
+  font-weight: 700;
+}
+.close-icon{
+  background-color: rgba(var(--dark));
+  color: rgba(var(--light));
+}
+
+
+.style-form .week-btn {
+  display: flex;
+  text-align: center;
+  font-weight: 600;
+  padding: 10px 0;
+  justify-content: center;
+  background-color: #f0f0f0; 
+  color: #000000;
+  border-radius: 5px; 
+  cursor: pointer; 
+  transition: background-color 0.3s; 
+}
+
+.style-form .week-btn.active {
+  background-color: #cfecff; 
+}
+
+.style-form .week-btn:hover {
+  background-color: #cfecff; 
+}
+
+.style-form .style-select-btn{
+  border-radius: 7px;
+  color: rgba(var(--dark));
+  border: 2px solid rgba(var(--dark));
+
+}
+.style-form .style-select-list{
+  background-color: rgba(var(--light)) !important;
+}
